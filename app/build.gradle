@@ -8,6 +8,9 @@ android {
     compileSdk 32
 
     defaultConfig {
+        buildFeatures{
+            viewBinding true
+        }
         applicationId "com.example.taskmanager"
         minSdk 21
         targetSdk 32
