@@ -17,4 +17,13 @@ interface TaskDao {
 
     @Update
     fun update(task: Task)
+
+    @Query("SELECT * FROM TaskMode ORDER BY title DESC")
+    fun getAllTaskByAlphabetAz(): List<Task?>?
+
+    @Query("SELECT * FROM TaskMode ORDER BY title ASC")
+    fun getAllTaskByAlphabetZa(): List<Task?>?
+
+    @Query("SELECT * FROM TaskMode ORDER BY id DESC")
+    fun getAllTaskByDate(): List<Task?>?
 }

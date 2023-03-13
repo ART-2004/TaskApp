@@ -3,9 +3,7 @@ package com.example.taskmanager.ui.home
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.R
 import androidx.fragment.app.Fragment
@@ -13,6 +11,7 @@ import com.example.taskmanager.App
 import com.example.taskmanager.Task
 import com.example.taskmanager.databinding.FragmentHomeBinding
 
+@Suppress("DEPRECATION", "UNCHECKED_CAST")
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -26,9 +25,47 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.sort_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.sort_menu) {
+
+            val items = arrayOf("Дата", "A-z", "z-A")
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Сортировать")
+            builder.setItems(items) { _, which ->
+                when (which) {
+                    0 -> {
+                        adapter.addTasks(
+                            App.database.TaskDao()?.getAllTaskByDate() as List<Task>
+                        )
+                    }
+                    1 -> {
+                        adapter.addTasks(
+                            App.database.TaskDao()?.getAllTaskByAlphabetAz() as List<Task>
+                        )
+
+                    }
+                    2 -> {
+                        adapter.addTasks(
+                            App.database.TaskDao()?.getAllTaskByAlphabetZa() as List<Task>
+                        )
+                    }
+                }
+            }
+            builder.show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = TaskAdapter(this::OnLongClick)
