@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.addTextChangedListener
 import com.example.taskmanager.Utils.loadImage
+import com.example.taskmanager.data.local.Pref
 import com.example.taskmanager.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var pref: Pref
 
     private val launcher = registerForActivityResult<Intent, ActivityResult>(
         ActivityResultContracts.StartActivityForResult()
@@ -23,6 +26,7 @@ class ProfileFragment : Fragment() {
             && result.data != null
         ) {
             val photoUri = result.data?.data
+            pref.saveImage(photoUri.toString())
             binding.avatarAccount.loadImage(photoUri.toString())
         }
     }
@@ -37,6 +41,13 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pref = Pref(requireContext())
+        binding.nameEd.setText(pref.getName())
+        binding.avatarAccount.loadImage(pref.getImage())
+
+        binding.nameEd.addTextChangedListener {
+            pref.saveName(binding.nameEd.text.toString())
+        }
 
         binding.cvImg.setOnClickListener {
             val intent = Intent()
