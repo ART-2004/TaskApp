@@ -12,7 +12,9 @@ import kotlin.reflect.KFunction0
 class OnBoardingAdapter(private val onClick: KFunction0<Unit>, private val onSkip: () -> Unit, private val onNext: () -> Unit) :
     Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
     private val data = arrayListOf(
-        OnBoarding("", "", ""), OnBoarding("", "", ""), OnBoarding("", "", "")
+        OnBoarding("To do list", "Here you can write down .....", "https://i.postimg.cc/rwzVj76h/img1.png"),
+        OnBoarding("Share your crazy idea", "You can easyly share woth your ....", "https://i.postimg.cc/mD4Wv5qW/Img2.png"),
+        OnBoarding("Flexibility", "Your note with you at home .....", "https://i.postimg.cc/bJr9wz4x/Img3.png")
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingViewHolder {
